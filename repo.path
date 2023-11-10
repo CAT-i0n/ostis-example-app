@@ -8,3 +8,4 @@ kb/
 problem-solver/cxx/exampleModule/specifications/agent_of_isomorphic_search
 problem-solver/cxx/exampleModule/specifications/agent_of_subdividing_search
 problem-solver/py/modules/messageProcessingModule/specifications
+problem-solver/cxx/naturalLanguageProcessingModule/specifications
