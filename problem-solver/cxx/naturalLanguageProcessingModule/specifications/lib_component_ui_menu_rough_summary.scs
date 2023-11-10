@@ -1,0 +1,9 @@
+lib_component_ui_menu_rough_summary
+=> nrel_main_idtf:
+	[Компонент библиотеки. Команда пользовательского интерфейса формирования грубого описания окрестности сущности]
+	(* <- lang_ru;; *);
+	[Library component. User interfaces command of creating rough summary of concept]
+	(* <- lang_en;; *);
+
+<- library_of_platform_independent_reusable_components;
+<- library_of_atomic_reusable_components;;
