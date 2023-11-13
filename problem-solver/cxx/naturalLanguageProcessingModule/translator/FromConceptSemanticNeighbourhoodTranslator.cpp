@@ -34,7 +34,7 @@ std::vector<std::string> FromConceptSemanticNeighbourhoodTranslator::getSemantic
     if (classMainIdtf.empty())
       continue;
 
-    SC_LOG_INFO("adding is " << classMainIdtf);
+    // SC_LOG_INFO("adding is " << classMainIdtf);
     translations.push_back("is " + classMainIdtf);
   }
   return translations;

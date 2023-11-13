@@ -13,7 +13,7 @@ FormSemanticNeighbourhoodTranslationManager::FormSemanticNeighbourhoodTranslatio
   this->semanticNeighbourhoodTranslatorSet = std::make_unique<SemanticNeighbourhoodTranslatorSet>(context);
 }
 
-ScAddrVector FormSemanticNeighbourhoodTranslationManager::manage(ScAddrVector const & processParameters) const
+ScAddr FormSemanticNeighbourhoodTranslationManager::manage(ScAddrVector const & processParameters) const
 {
   ScAddr const & node = processParameters[0];
 
@@ -25,7 +25,8 @@ ScAddrVector FormSemanticNeighbourhoodTranslationManager::manage(ScAddrVector co
 
   std::string const & translation =
       join(translations.cbegin(), translations.cend(), TranslationConstants::TRANSLATIONS_DELIMITER);
-  
+
+  //вывод результата в логи
   SC_LOG_INFO(translation);
 
   ScAddr const & translationLink = context->CreateLink();
@@ -33,7 +34,7 @@ ScAddrVector FormSemanticNeighbourhoodTranslationManager::manage(ScAddrVector co
     SC_THROW_EXCEPTION(utils::ScException, "FormSemanticNeighbourhoodTranslationManager: cannot create answer link");
   if (context->SetLinkContent(translationLink, translation) == SC_FALSE)
     SC_THROW_EXCEPTION(utils::ScException, "FormSemanticNeighbourhoodTranslationManager: cannot set link content");
-  return {translationLink};
+  return translationLink;
 }
 
 std::string FormSemanticNeighbourhoodTranslationManager::join(

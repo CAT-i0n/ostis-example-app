@@ -10,7 +10,7 @@ class FormSemanticNeighbourhoodTranslationManager
 public:
   explicit FormSemanticNeighbourhoodTranslationManager(ScMemoryContext * context);
 
-  ScAddrVector manage(ScAddrVector const & processParameters) const;
+  ScAddr manage(ScAddrVector const & processParameters) const;
 
 private:
   ScMemoryContext * context;

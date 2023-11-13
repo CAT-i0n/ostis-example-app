@@ -18,19 +18,25 @@ SC_AGENT_IMPLEMENTATION(FormSemanticNeighbourhoodTranslationAgent)
       return SC_RESULT_OK;
     SC_LOG_DEBUG("FormSemanticNeighbourhoodTranslationAgent started");
 
-  ScAddr questionNode = ms_context->GetEdgeTarget(edgeAddr);
-  ScAddr nodeAddr = utils::IteratorUtils::getFirstFromSet(ms_context.get(), questionNode);
+    ScAddr questionNode = ms_context->GetEdgeTarget(edgeAddr);
+    ScAddr setAddr = utils::IteratorUtils::getFirstFromSet(ms_context.get(), questionNode);
 
-    if (nodeAddr.IsValid() == SC_FALSE)
-      SC_THROW_EXCEPTION(utils::ExceptionItemNotFound, "FormSemanticNeighbourhoodTranslationAgent: nodeAddr is not valid");
+    if (setAddr.IsValid() == SC_FALSE)
+      SC_THROW_EXCEPTION(utils::ExceptionItemNotFound, "FormSemanticNeighbourhoodTranslationAgent: setAddr is not valid");
 
+    auto summaryIterator = ms_context->Iterator3(setAddr, ScType::EdgeAccessConstPosPerm, ScType::Node);
+
+    ScAddrVector nodeSummaries;
     auto manager = make_unique<FormSemanticNeighbourhoodTranslationManager>(&m_memoryCtx);
-    ScAddrVector const & answerElements = manager->manage({nodeAddr});
+    while(summaryIterator->Next())
+    { 
+      nodeSummaries.push_back(manager->manage({summaryIterator->Get(2)}));
 
-    if (answerElements.empty())
+    }
+    if (nodeSummaries.empty())
       SC_THROW_EXCEPTION(utils::ScException, "FormSemanticNeighbourhoodTranslationAgent: answer is empty");
 
-    utils::AgentUtils::finishAgentWork(&m_memoryCtx, actionNode, answerElements, true);
+    utils::AgentUtils::finishAgentWork(&m_memoryCtx, actionNode, nodeSummaries, true);
     SC_LOG_DEBUG("FormSemanticNeighbourhoodTranslationAgent finished");
     return SC_RESULT_OK;
   }
