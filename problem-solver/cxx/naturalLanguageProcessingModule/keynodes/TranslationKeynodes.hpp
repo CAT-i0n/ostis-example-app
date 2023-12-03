@@ -25,6 +25,9 @@ public:
 
   SC_PROPERTY(Keynode("translation_ignored_keynodes"), ForceCreate(ScType::NodeConstClass))
   static ScAddr translation_ignored_keynodes;
+
+  SC_PROPERTY(Keynode("nrel_rough_summary"), ForceCreate(ScType::NodeConstClass))
+  static ScAddr nrel_rough_summary;
 };
 
 } // naturalLanguageProcessingModule

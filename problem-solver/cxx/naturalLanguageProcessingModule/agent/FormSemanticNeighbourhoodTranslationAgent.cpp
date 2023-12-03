@@ -30,7 +30,21 @@ SC_AGENT_IMPLEMENTATION(FormSemanticNeighbourhoodTranslationAgent)
     if (answerElements.empty())
       SC_THROW_EXCEPTION(utils::ScException, "FormSemanticNeighbourhoodTranslationAgent: answer is empty");
 
-    utils::AgentUtils::finishAgentWork(&m_memoryCtx, actionNode, answerElements, true);
+
+    ScAddr answer = ms_context->CreateNode(ScType::NodeConstStruct);
+
+
+    ms_context->CreateEdge(ScType::EdgeAccessConstPosPerm, answer, nodeAddr);
+    ms_context->CreateEdge(ScType::EdgeAccessConstPosPerm, answer, TranslationKeynodes::nrel_rough_summary);
+
+    ScAddr const & summary_edge = ms_context->CreateEdge(ScType::EdgeDCommon, nodeAddr, answerElements[0]);
+    ScAddr const & summary_nrel_edge = ms_context->CreateEdge(ScType::EdgeAccessConstPosPerm, TranslationKeynodes::nrel_rough_summary, summary_edge);
+
+    ms_context->CreateEdge(ScType::EdgeAccessConstPosPerm, answer, answerElements[0]);
+    ms_context->CreateEdge(ScType::EdgeAccessConstPosPerm, answer, summary_edge);
+    ms_context->CreateEdge(ScType::EdgeAccessConstPosPerm, answer, summary_nrel_edge);
+
+    utils::AgentUtils::finishAgentWork(&m_memoryCtx, actionNode, answer, true);
     SC_LOG_DEBUG("FormSemanticNeighbourhoodTranslationAgent finished");
     return SC_RESULT_OK;
   }
