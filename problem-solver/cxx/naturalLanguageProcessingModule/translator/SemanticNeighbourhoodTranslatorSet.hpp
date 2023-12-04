@@ -12,6 +12,9 @@ public:
   std::vector<std::string> getSemanticNeighbourhoods(
       ScAddr const & node,
       size_t const & maxTranslationsFromEachHandler,
+      std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
+      std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
+      bool isEnglish,
       ScAddrSet const & structure = {},
       ScAddrSet const & atLeastOneNodeFromConstruction = {}) const;
 

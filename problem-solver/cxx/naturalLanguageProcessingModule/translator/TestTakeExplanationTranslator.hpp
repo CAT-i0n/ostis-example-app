@@ -5,25 +5,25 @@
 namespace naturalLanguageProcessingModule
 {
 /**
- * parameter _-> _parameter_class;;
- * _parameter_class _-> _parameter_value;;
- * _parameter_value _-> node;;
+ * node _<= _nrel_relation:: {_[]};;
  */
-class FromParameterSemanticNeighbourhoodTranslator : public SemanticNeighbourhoodTranslator
+class TestTakeExplanationTranslator : public SemanticNeighbourhoodTranslator
 {
 public:
-  explicit FromParameterSemanticNeighbourhoodTranslator(ScMemoryContext * context);
+  explicit TestTakeExplanationTranslator(ScMemoryContext * context);
 
   std::vector<std::string> getSemanticNeighbourhoods(
-      ScAddr const & node,
-      size_t const & maxTranslations,
-      ScAddrSet const & structure,
-      ScAddrSet const & atLeastOneNodeFromConstruction,
+    ScAddr const & node,
+    size_t const & maxTranslations,
+    ScAddrSet const & structure,
+    ScAddrSet const & atLeastOneNodeFromConstruction,
     std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
     std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
     bool isEnglish) const override;
 
   std::list<ScAddrVector> getSemanticNeighbourhoodsElements(ScAddr const & node, ScAddrSet const & structure) const override;
+
+private:
 };
 
 }  // namespace naturalLanguageProcessingModule

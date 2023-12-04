@@ -5,14 +5,17 @@
 namespace naturalLanguageProcessingModule
 {
 /**
- * parameter _-> _parameter_class;;
- * _parameter_class _-> _parameter_value;;
- * _parameter_value _-> node;;
+ * _concept _-> node;;
+ *
+ * note: translation is generated only if following construction does not exist
+ * _parameter_class
+ *  _<- parameter;
+ *  _-> _concept;;
  */
-class FromParameterSemanticNeighbourhoodTranslator : public SemanticNeighbourhoodTranslator
+class InConceptSemanticNeighbourhoodTranslator : public SemanticNeighbourhoodTranslator
 {
 public:
-  explicit FromParameterSemanticNeighbourhoodTranslator(ScMemoryContext * context);
+  explicit InConceptSemanticNeighbourhoodTranslator(ScMemoryContext * context);
 
   std::vector<std::string> getSemanticNeighbourhoods(
       ScAddr const & node,
@@ -24,6 +27,9 @@ public:
     bool isEnglish) const override;
 
   std::list<ScAddrVector> getSemanticNeighbourhoodsElements(ScAddr const & node, ScAddrSet const & structure) const override;
+
+private:
+  bool isParameter(ScAddr const & node) const;
 };
 
 }  // namespace naturalLanguageProcessingModule

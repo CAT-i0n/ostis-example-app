@@ -1,15 +1,15 @@
 #include "keynodes/TranslationKeynodes.hpp"
 
-#include "FromConceptSemanticNeighbourhoodTranslator.hpp"
+#include "InConceptSemanticNeighbourhoodTranslator.hpp"
 
 namespace naturalLanguageProcessingModule
 {
-FromConceptSemanticNeighbourhoodTranslator::FromConceptSemanticNeighbourhoodTranslator(ScMemoryContext * context)
+InConceptSemanticNeighbourhoodTranslator::InConceptSemanticNeighbourhoodTranslator(ScMemoryContext * context)
   : SemanticNeighbourhoodTranslator(context)
 {
 }
 
-std::vector<std::string> FromConceptSemanticNeighbourhoodTranslator::getSemanticNeighbourhoods(
+std::vector<std::string> InConceptSemanticNeighbourhoodTranslator::getSemanticNeighbourhoods(
 
     ScAddr const & node,
     size_t const & maxTranslations,
@@ -21,7 +21,7 @@ std::vector<std::string> FromConceptSemanticNeighbourhoodTranslator::getSemantic
 {
   std::vector<std::string> translations;
   translations.reserve(maxTranslations);
-  auto const & classIterator = context->Iterator3(ScType::NodeConstClass, ScType::EdgeAccessConstPosPerm, node);
+  auto const & classIterator = context->Iterator3(node, ScType::EdgeAccessConstPosPerm, ScType::Node);
   while (classIterator->Next() && translations.size() < maxTranslations)
   {
     if (isInStructure(classIterator->Get(1), structure) == SC_FALSE)
@@ -29,20 +29,22 @@ std::vector<std::string> FromConceptSemanticNeighbourhoodTranslator::getSemantic
     if (anyIsInStructure({classIterator->Get(0)}, atLeastOneNodeFromConstruction) == SC_FALSE)
       continue;
     ScAddr const & classNode = classIterator->Get(0);
-    if (isInIgnoredKeynodes(classNode))
+    ScAddr const & includedNode = classIterator->Get(2);
+    if (isInIgnoredKeynodes(classNode)||isInIgnoredKeynodes(includedNode))
       continue;
     if (isParameter(classNode))
       continue;
-    std::string const & classMainIdtf = getMainIdtf(classNode, isEnglish);
-    if (classMainIdtf.empty())
+    std::string const & nodeIdtf = getMainIdtf(includedNode, isEnglish);
+    if (nodeIdtf.empty())
       continue;
-    translations.push_back("is " + classMainIdtf);
-    fromTr["included in"].push_back({classMainIdtf});
+
+    translations.push_back("includes " + nodeIdtf);
+    inTr["includes"].push_back({nodeIdtf});
   }
   return translations;
 }
 
-bool FromConceptSemanticNeighbourhoodTranslator::isParameter(ScAddr const & node) const
+bool InConceptSemanticNeighbourhoodTranslator::isParameter(ScAddr const & node) const
 {
   std::string const & NODE_ALIAS = "_node;";
   ScTemplate scTemplate;
@@ -53,7 +55,7 @@ bool FromConceptSemanticNeighbourhoodTranslator::isParameter(ScAddr const & node
   return searchResult.IsEmpty() == SC_FALSE;
 }
 
-std::list<ScAddrVector> FromConceptSemanticNeighbourhoodTranslator::getSemanticNeighbourhoodsElements(
+std::list<ScAddrVector> InConceptSemanticNeighbourhoodTranslator::getSemanticNeighbourhoodsElements(
     ScAddr const & node,
     ScAddrSet const & structure) const
 {

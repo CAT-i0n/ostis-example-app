@@ -20,7 +20,15 @@ bool SemanticNeighbourhoodTranslator::operator<(SemanticNeighbourhoodTranslator 
 std::string SemanticNeighbourhoodTranslator::getEnglishContent(ScAddr const & linkNode) const
 {
   std::string content;
-  if (isEnglish(linkNode))
+  if (isInEnglish(linkNode))
+    content = utils::CommonUtils::readString(context, linkNode);
+  return content;
+}
+
+std::string SemanticNeighbourhoodTranslator::getRussianContent(ScAddr const & linkNode) const
+{
+  std::string content;
+  if (isInRussian(linkNode))
     content = utils::CommonUtils::readString(context, linkNode);
   return content;
 }
@@ -35,18 +43,23 @@ ScIterator5Ptr SemanticNeighbourhoodTranslator::getNrelMainIdtfIterator(ScAddr c
       scAgentsCommon::CoreKeynodes::nrel_main_idtf);
 }
 
-bool SemanticNeighbourhoodTranslator::isEnglish(ScAddr const & node) const
+bool SemanticNeighbourhoodTranslator::isInEnglish(ScAddr const & node) const
 {
   return context->HelperCheckEdge(TranslationKeynodes::lang_en, node, ScType::EdgeAccessConstPosPerm);
 }
 
-std::string SemanticNeighbourhoodTranslator::getEnglishMainIdtf(ScAddr const & node) const
+bool SemanticNeighbourhoodTranslator::isInRussian(ScAddr const & node) const
+{
+  return context->HelperCheckEdge(TranslationKeynodes::lang_ru, node, ScType::EdgeAccessConstPosPerm);
+}
+
+std::string SemanticNeighbourhoodTranslator::getMainIdtf(ScAddr const & node, bool isEnglish) const
 {
   std::string mainIdtf;
   auto const & iterator = getNrelMainIdtfIterator(node);
   while (iterator->Next())
   {
-    mainIdtf = getEnglishContent(iterator->Get(2));
+    mainIdtf = isEnglish ? getEnglishContent(iterator->Get(2)) : getRussianContent(iterator->Get(2)) ;
     if (mainIdtf.empty() == SC_FALSE)
       break;
   }
