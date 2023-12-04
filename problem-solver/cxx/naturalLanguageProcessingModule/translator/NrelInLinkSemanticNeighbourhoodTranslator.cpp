@@ -14,7 +14,7 @@ std::vector<std::string> NrelInLinkSemanticNeighbourhoodTranslator::getSemanticN
     ScAddrSet const & atLeastOneNodeFromConstruction,
     std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
     std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
-    bool isEnglish) const
+    LanguageHandler* languageHandler) const
 {
   std::vector<std::string> translations;
   translations.reserve(maxTranslations);
@@ -28,13 +28,13 @@ std::vector<std::string> NrelInLinkSemanticNeighbourhoodTranslator::getSemanticN
     if (anyIsInStructure({linkIterator->Get(4)}, atLeastOneNodeFromConstruction) == SC_FALSE)
       continue;
     ScAddr const linkNode = linkIterator->Get(2);
-    std::string const & linkContent = isEnglish? getEnglishContent(linkNode): getRussianContent(linkNode);
+    std::string const & linkContent = languageHandler->getContent(linkNode); 
     if (linkContent.empty())
       continue;
     ScAddr const nrelNode = linkIterator->Get(4);
     if (isInIgnoredKeynodes(nrelNode))
       continue;
-    std::string nrelMainIdtf = getMainIdtf(nrelNode, isEnglish);
+    std::string nrelMainIdtf = languageHandler->getMainIdtf(nrelNode);
     if (nrelMainIdtf.empty())
       continue;
     inTr[nrelMainIdtf].push_back({linkContent});

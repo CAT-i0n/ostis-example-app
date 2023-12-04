@@ -16,7 +16,7 @@ std::vector<std::string> TestTakeExplanationTranslator::getSemanticNeighbourhood
     ScAddrSet const & atLeastOneNodeFromConstruction,
     std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
     std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
-    bool isEnglish) const
+    LanguageHandler* languageHandler) const
 
 {
   std::vector<std::string> translations;
@@ -47,7 +47,7 @@ std::vector<std::string> TestTakeExplanationTranslator::getSemanticNeighbourhood
             if (isInStructure(linkIterator->Get(1), structure) == SC_FALSE)
                 continue;
             ScAddr const & linkNode = linkIterator->Get(2);
-            std::string const & linkContent = isEnglish? getEnglishContent(linkNode): getRussianContent(linkNode);
+            std::string const & linkContent = languageHandler->getContent(linkNode);
             if (linkContent.empty())
                 continue;
             linkContents += linkContent;

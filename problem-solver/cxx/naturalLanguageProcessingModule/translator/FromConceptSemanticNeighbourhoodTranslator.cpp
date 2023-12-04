@@ -17,7 +17,7 @@ std::vector<std::string> FromConceptSemanticNeighbourhoodTranslator::getSemantic
     ScAddrSet const & atLeastOneNodeFromConstruction,
     std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
     std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
-    bool isEnglish) const
+    LanguageHandler* languageHandler) const
 {
   std::vector<std::string> translations;
   translations.reserve(maxTranslations);
@@ -33,7 +33,7 @@ std::vector<std::string> FromConceptSemanticNeighbourhoodTranslator::getSemantic
       continue;
     if (isParameter(classNode))
       continue;
-    std::string const & classMainIdtf = getMainIdtf(classNode, isEnglish);
+    std::string const & classMainIdtf = languageHandler->getMainIdtf(classNode);
     if (classMainIdtf.empty())
       continue;
     translations.push_back("is " + classMainIdtf);

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "manager/language_handler/LanguageHandler.hpp"
+
 #include "translator/SemanticNeighbourhoodTranslator.hpp"
 
 namespace naturalLanguageProcessingModule
@@ -14,7 +16,7 @@ public:
       size_t const & maxTranslationsFromEachHandler,
       std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
       std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
-      bool isEnglish,
+      LanguageHandler* languageHandler,
       ScAddrSet const & structure = {},
       ScAddrSet const & atLeastOneNodeFromConstruction = {}) const;
 

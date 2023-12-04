@@ -14,7 +14,7 @@ std::vector<std::string> NrelInNodeSemanticNeighbourhoodTranslator::getSemanticN
     ScAddrSet const & atLeastOneNodeFromConstruction,
     std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
     std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
-    bool isEnglish) const
+    LanguageHandler* languageHandler) const
 {
   std::vector<std::string> translations;
   translations.reserve(maxTranslations);
@@ -30,14 +30,14 @@ std::vector<std::string> NrelInNodeSemanticNeighbourhoodTranslator::getSemanticN
     ScAddr const & nrelTargetNode = nrelIterator->Get(2);
     if (isInIgnoredKeynodes(nrelTargetNode))
       continue;
-    std::string const & nrelTargetMainIdtf = getMainIdtf(nrelTargetNode, isEnglish);
+    std::string const & nrelTargetMainIdtf = languageHandler->getMainIdtf(nrelTargetNode);
     if (nrelTargetMainIdtf.empty())
       continue;
 
     ScAddr const & nrelNode = nrelIterator->Get(4);
     if (isInIgnoredKeynodes(nrelNode))
       continue;
-    std::string nrelMainIdtf = getMainIdtf(nrelNode, isEnglish);
+    std::string nrelMainIdtf = languageHandler->getMainIdtf(nrelNode);
     if (nrelMainIdtf.empty())
       continue;
 

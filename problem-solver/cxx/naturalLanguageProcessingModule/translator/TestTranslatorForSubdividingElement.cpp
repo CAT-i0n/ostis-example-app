@@ -13,7 +13,7 @@ std::vector<std::string> TestTranslatorForSubdividingElement::getSemanticNeighbo
     ScAddrSet const & atLeastOneNodeFromConstruction,
     std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
     std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
-    bool isEnglish) const
+    LanguageHandler* languageHandler) const
 
 {
   std::vector<std::string> translations;
@@ -40,8 +40,8 @@ std::vector<std::string> TestTranslatorForSubdividingElement::getSemanticNeighbo
       ScAddr const & nrelNode = tupleNodeIterator->Get(4);
       if (isInIgnoredKeynodes(tupleNodeNode)||isInIgnoredKeynodes(nrelNode))
         continue;
-      std::string const & tupleNodeMainIdtf = getMainIdtf(tupleNodeNode, isEnglish);
-      std::string const & nrelMainIdtf = getMainIdtf(nrelNode, isEnglish);
+      std::string const & tupleNodeMainIdtf = languageHandler->getMainIdtf(tupleNodeNode);
+      std::string const & nrelMainIdtf = languageHandler->getMainIdtf(nrelNode);
       if (tupleNodeMainIdtf.empty()||nrelMainIdtf.empty())
         continue;
       inTr[nrelMainIdtf].push_back({tupleNodeMainIdtf});

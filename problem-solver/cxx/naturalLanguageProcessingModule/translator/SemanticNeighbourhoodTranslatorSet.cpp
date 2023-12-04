@@ -1,5 +1,6 @@
 #include "SemanticNeighbourhoodTranslatorSet.hpp"
 
+
 #include "NrelInNodeSemanticNeighbourhoodTranslator.hpp"
 #include "NrelInLinkSemanticNeighbourhoodTranslator.hpp"
 #include "NrelInQuasybinaryLinkSemanticNeighbourhoodTranslator.hpp"
@@ -44,15 +45,16 @@ SemanticNeighbourhoodTranslatorSet::~SemanticNeighbourhoodTranslatorSet()
     size_t const & maxTranslationsFromEachHandler,
     std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
     std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
-    bool isEnglish,
+    LanguageHandler* languageHandler,
     ScAddrSet const & structure,
     ScAddrSet const & atLeastOneNodeFromConstruction) const
 {
   std::vector<std::string> answer;
   for (const auto & handler : handlers)
   {
+
     auto translations =
-        handler->getSemanticNeighbourhoods(node, maxTranslationsFromEachHandler, structure, atLeastOneNodeFromConstruction, inTr, fromTr, isEnglish);
+        handler->getSemanticNeighbourhoods(node, maxTranslationsFromEachHandler, structure, atLeastOneNodeFromConstruction, inTr, fromTr, languageHandler);
     answer.insert(answer.cend(), translations.cbegin(), translations.cend());
   }
   return answer;
