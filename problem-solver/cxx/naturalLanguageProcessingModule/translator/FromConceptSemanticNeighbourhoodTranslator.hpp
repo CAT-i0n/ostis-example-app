@@ -21,7 +21,10 @@ public:
       ScAddr const & node,
       size_t const & maxTranslations,
       ScAddrSet const & structure,
-      ScAddrSet const & atLeastOneNodeFromConstruction) const override;
+      ScAddrSet const & atLeastOneNodeFromConstruction,
+    std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
+    std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
+    bool isEnglish) const override;
 
   std::list<ScAddrVector> getSemanticNeighbourhoodsElements(ScAddr const & node, ScAddrSet const & structure) const override;
 

@@ -9,6 +9,10 @@
 #include "FromConceptSemanticNeighbourhoodTranslator.hpp"
 #include "NrelFromNodeSemanticNeighbourhoodTranslator.hpp"
 #include "NrelFromQuasybinaryLinkSemanticNeighbourhoodTranslator.hpp"
+#include "TestTranslatorForSubdividingElement.hpp"
+#include "InConceptSemanticNeighbourhoodTranslator.hpp"
+#include "TestTakeExplanationTranslator.hpp"
+
 
 namespace naturalLanguageProcessingModule
 {
@@ -22,7 +26,10 @@ SemanticNeighbourhoodTranslatorSet::SemanticNeighbourhoodTranslatorSet(ScMemoryC
          new FromParameterSemanticNeighbourhoodTranslator(context),
          new FromConceptSemanticNeighbourhoodTranslator(context),
          new NrelFromNodeSemanticNeighbourhoodTranslator(context),
-         new NrelFromQuasybinaryLinkSemanticNeighbourhoodTranslator(context)})
+         new NrelFromQuasybinaryLinkSemanticNeighbourhoodTranslator(context),
+         new TestTranslatorForSubdividingElement(context),
+         new InConceptSemanticNeighbourhoodTranslator(context),
+         new TestTakeExplanationTranslator(context)})
 {
 }
 
@@ -32,9 +39,12 @@ SemanticNeighbourhoodTranslatorSet::~SemanticNeighbourhoodTranslatorSet()
     delete handler;
 }
 
-std::vector<std::string> SemanticNeighbourhoodTranslatorSet::getSemanticNeighbourhoods(
+    std::vector<std::string> SemanticNeighbourhoodTranslatorSet::getSemanticNeighbourhoods(
     ScAddr const & node,
     size_t const & maxTranslationsFromEachHandler,
+    std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
+    std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
+    bool isEnglish,
     ScAddrSet const & structure,
     ScAddrSet const & atLeastOneNodeFromConstruction) const
 {
@@ -42,7 +52,7 @@ std::vector<std::string> SemanticNeighbourhoodTranslatorSet::getSemanticNeighbou
   for (const auto & handler : handlers)
   {
     auto translations =
-        handler->getSemanticNeighbourhoods(node, maxTranslationsFromEachHandler, structure, atLeastOneNodeFromConstruction);
+        handler->getSemanticNeighbourhoods(node, maxTranslationsFromEachHandler, structure, atLeastOneNodeFromConstruction, inTr, fromTr, isEnglish);
     answer.insert(answer.cend(), translations.cbegin(), translations.cend());
   }
   return answer;

@@ -11,7 +11,10 @@ std::vector<std::string> NrelInQuasybinaryNodeSemanticNeighbourhoodTranslator::g
     ScAddr const & node,
     size_t const & maxTranslations,
     ScAddrSet const & structure,
-    ScAddrSet const & atLeastOneNodeFromConstruction) const
+    ScAddrSet const & atLeastOneNodeFromConstruction,
+    std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
+    std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
+    bool isEnglish) const
 {
   std::vector<std::string> translations;
   translations.reserve(maxTranslations);
@@ -25,13 +28,13 @@ std::vector<std::string> NrelInQuasybinaryNodeSemanticNeighbourhoodTranslator::g
     ScAddr const & nrelNode = tupleIterator->Get(4);
     if (isInIgnoredKeynodes(nrelNode))
       continue;
-    std::string const & nrelMainIdtf = getEnglishMainIdtf(nrelNode);
+    std::string const & nrelMainIdtf = getMainIdtf(nrelNode, isEnglish);
     if (nrelMainIdtf.empty())
       continue;
 
     ScAddr const & tupleNode = tupleIterator->Get(2);
     auto const & tupleNodeIterator = context->Iterator3(tupleNode, ScType::EdgeAccessConstPosPerm, ScType::NodeConst);
-
+    std::vector<std::string> tupleNodesIdtf;
     while (tupleNodeIterator->Next() && translations.size() < maxTranslations)
     {
       if (isInStructure(tupleNodeIterator->Get(1), structure) == SC_FALSE)
@@ -43,11 +46,12 @@ std::vector<std::string> NrelInQuasybinaryNodeSemanticNeighbourhoodTranslator::g
       ScAddr const & tupleNodeNode = tupleNodeIterator->Get(2);
       if (isInIgnoredKeynodes(tupleNodeNode))
         continue;
-      std::string const & tupleNodeMainIdtf = getEnglishMainIdtf(tupleNodeNode);
+      std::string const & tupleNodeMainIdtf = getMainIdtf(tupleNodeNode, isEnglish);
       if (tupleNodeMainIdtf.empty())
         continue;
-
+      tupleNodesIdtf.push_back(tupleNodeMainIdtf);
       translations.push_back(nrelMainIdtf + " " + tupleNodeMainIdtf);
+      inTr[nrelMainIdtf].push_back(tupleNodesIdtf);
     }
   }
   return translations;

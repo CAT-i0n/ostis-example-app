@@ -20,6 +20,9 @@ public:
   SC_PROPERTY(Keynode("lang_en"), ForceCreate(ScType::NodeConstClass))
   static ScAddr lang_en;
 
+  SC_PROPERTY(Keynode("lang_ru"), ForceCreate(ScType::NodeConstClass))
+  static ScAddr lang_ru;
+
   SC_PROPERTY(Keynode("parameter"), ForceCreate(ScType::NodeConstClass))
   static ScAddr parameter;
 

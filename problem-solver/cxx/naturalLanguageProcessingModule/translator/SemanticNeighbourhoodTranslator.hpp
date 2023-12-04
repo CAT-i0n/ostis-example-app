@@ -21,7 +21,10 @@ public:
       ScAddr const & node,
       size_t const & maxTranslations,
       ScAddrSet const & structure,
-      ScAddrSet const & atLeastOneNodeFromConstruction) const = 0;
+      ScAddrSet const & atLeastOneNodeFromConstruction,
+    std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
+    std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
+    bool isEnglish) const = 0;
 
   virtual std::list<ScAddrVector> getSemanticNeighbourhoodsElements(ScAddr const & node, ScAddrSet const & structure) const = 0;
 
@@ -34,7 +37,9 @@ protected:
 
   std::string getEnglishContent(ScAddr const & linkNode) const;
 
-  std::string getEnglishMainIdtf(ScAddr const & node) const;
+  std::string getRussianContent(ScAddr const & linkNode) const;
+
+std::string getMainIdtf(ScAddr const & node, bool isEnglish = true) const;
 
   bool isInIgnoredKeynodes(ScAddr const & node) const;
 
@@ -45,7 +50,8 @@ protected:
 private:
   ScIterator5Ptr getNrelMainIdtfIterator(ScAddr const & node) const;
 
-  bool isEnglish(ScAddr const & node) const;
+  bool isInEnglish(ScAddr const & node) const;
+  bool isInRussian(ScAddr const & node) const;
 };
 
 struct SemanticNeighbourhoodTranslatorCmp
