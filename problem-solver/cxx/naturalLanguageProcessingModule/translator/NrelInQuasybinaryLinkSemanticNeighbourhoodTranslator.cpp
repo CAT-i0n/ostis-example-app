@@ -14,7 +14,7 @@ std::vector<std::string> NrelInQuasybinaryLinkSemanticNeighbourhoodTranslator::g
     ScAddrSet const & atLeastOneNodeFromConstruction,
     std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
     std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
-    bool isEnglish) const
+    LanguageHandler* languageHandler) const
 {
   std::vector<std::string> translations;
   translations.reserve(maxTranslations);
@@ -30,7 +30,7 @@ std::vector<std::string> NrelInQuasybinaryLinkSemanticNeighbourhoodTranslator::g
     ScAddr const & nrelNode = tupleIterator->Get(4);
     if (isInIgnoredKeynodes(nrelNode))
       continue;
-    std::string const & nrelMainIdtf = getMainIdtf(nrelNode, isEnglish);
+    std::string const & nrelMainIdtf = languageHandler->getMainIdtf(nrelNode);
     if (nrelMainIdtf.empty())
       continue;
     std::vector<std::string> linkContents;
@@ -41,7 +41,7 @@ std::vector<std::string> NrelInQuasybinaryLinkSemanticNeighbourhoodTranslator::g
       if (isInStructure(linkIterator->Get(1), structure) == SC_FALSE)
         continue;
       ScAddr const & linkNode = linkIterator->Get(2);
-      std::string const & linkContent = isEnglish? getEnglishContent(linkNode): getRussianContent(linkNode);
+      std::string const & linkContent = languageHandler->getContent(linkNode);
       if (linkContent.empty())
         continue;
       linkContents.push_back(linkContent);

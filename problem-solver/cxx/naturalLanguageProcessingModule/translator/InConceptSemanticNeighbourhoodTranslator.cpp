@@ -17,7 +17,7 @@ std::vector<std::string> InConceptSemanticNeighbourhoodTranslator::getSemanticNe
     ScAddrSet const & atLeastOneNodeFromConstruction,
     std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
     std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
-    bool isEnglish) const
+    LanguageHandler* languageHandler) const
 {
   std::vector<std::string> translations;
   translations.reserve(maxTranslations);
@@ -34,7 +34,7 @@ std::vector<std::string> InConceptSemanticNeighbourhoodTranslator::getSemanticNe
       continue;
     if (isParameter(classNode))
       continue;
-    std::string const & nodeIdtf = getMainIdtf(includedNode, isEnglish);
+    std::string const & nodeIdtf = languageHandler->getMainIdtf(includedNode);
     if (nodeIdtf.empty())
       continue;
 

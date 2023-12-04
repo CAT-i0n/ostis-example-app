@@ -16,7 +16,7 @@ std::vector<std::string> FromParameterSemanticNeighbourhoodTranslator::getSemant
     ScAddrSet const & atLeastOneNodeFromConstruction,
     std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
     std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
-    bool isEnglish) const
+    LanguageHandler* languageHandler) const
 {
   std::vector<std::string> translations;
   translations.reserve(maxTranslations);
@@ -28,7 +28,7 @@ std::vector<std::string> FromParameterSemanticNeighbourhoodTranslator::getSemant
     ScAddr const & classNode = classIterator->Get(0);
     if (isInIgnoredKeynodes(classNode))
       continue;
-    std::string const & classMainIdtf = getMainIdtf(classNode, isEnglish);
+    std::string const & classMainIdtf = languageHandler->getMainIdtf(classNode);
     if (classMainIdtf.empty())
       continue;
 
@@ -47,7 +47,7 @@ std::vector<std::string> FromParameterSemanticNeighbourhoodTranslator::getSemant
       if (context->HelperCheckEdge(TranslationKeynodes::parameter, parameterNode, ScType::EdgeAccessConstPosPerm) ==
           SC_FALSE)
         continue;
-      std::string parameterMainIdtf = getMainIdtf(parameterNode, isEnglish);
+      std::string parameterMainIdtf = languageHandler->getMainIdtf(parameterNode);
       if (parameterMainIdtf.empty())
         continue;
 

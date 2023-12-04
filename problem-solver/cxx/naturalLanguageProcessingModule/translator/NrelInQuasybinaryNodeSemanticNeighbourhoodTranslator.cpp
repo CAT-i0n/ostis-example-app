@@ -14,7 +14,7 @@ std::vector<std::string> NrelInQuasybinaryNodeSemanticNeighbourhoodTranslator::g
     ScAddrSet const & atLeastOneNodeFromConstruction,
     std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
     std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
-    bool isEnglish) const
+    LanguageHandler* languageHandler) const
 {
   std::vector<std::string> translations;
   translations.reserve(maxTranslations);
@@ -28,7 +28,7 @@ std::vector<std::string> NrelInQuasybinaryNodeSemanticNeighbourhoodTranslator::g
     ScAddr const & nrelNode = tupleIterator->Get(4);
     if (isInIgnoredKeynodes(nrelNode))
       continue;
-    std::string const & nrelMainIdtf = getMainIdtf(nrelNode, isEnglish);
+    std::string const & nrelMainIdtf = languageHandler->getMainIdtf(nrelNode);
     if (nrelMainIdtf.empty())
       continue;
 
@@ -46,7 +46,7 @@ std::vector<std::string> NrelInQuasybinaryNodeSemanticNeighbourhoodTranslator::g
       ScAddr const & tupleNodeNode = tupleNodeIterator->Get(2);
       if (isInIgnoredKeynodes(tupleNodeNode))
         continue;
-      std::string const & tupleNodeMainIdtf = getMainIdtf(tupleNodeNode, isEnglish);
+      std::string const & tupleNodeMainIdtf = languageHandler->getMainIdtf(tupleNodeNode);
       if (tupleNodeMainIdtf.empty())
         continue;
       tupleNodesIdtf.push_back(tupleNodeMainIdtf);

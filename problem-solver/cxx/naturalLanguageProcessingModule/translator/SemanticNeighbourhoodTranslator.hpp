@@ -1,5 +1,6 @@
 #pragma once
 
+#include "manager/language_handler/LanguageHandler.hpp"
 #include "sc-memory/sc_memory.hpp"
 #include "sc-memory/sc_addr.hpp"
 
@@ -22,9 +23,9 @@ public:
       size_t const & maxTranslations,
       ScAddrSet const & structure,
       ScAddrSet const & atLeastOneNodeFromConstruction,
-    std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
-    std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
-    bool isEnglish) const = 0;
+      std::map<std::string, std::vector<std::vector<std::string>>> & inTr,
+      std::map<std::string, std::vector<std::vector<std::string>>> & fromTr,
+      LanguageHandler* languageHandler) const = 0;
 
   virtual std::list<ScAddrVector> getSemanticNeighbourhoodsElements(ScAddr const & node, ScAddrSet const & structure) const = 0;
 
@@ -35,12 +36,6 @@ public:
 protected:
   ScMemoryContext * context;
 
-  std::string getEnglishContent(ScAddr const & linkNode) const;
-
-  std::string getRussianContent(ScAddr const & linkNode) const;
-
-std::string getMainIdtf(ScAddr const & node, bool isEnglish = true) const;
-
   bool isInIgnoredKeynodes(ScAddr const & node) const;
 
   static bool isInStructure(ScAddr const & elementAddr, ScAddrSet const & structure);
@@ -49,9 +44,6 @@ std::string getMainIdtf(ScAddr const & node, bool isEnglish = true) const;
 
 private:
   ScIterator5Ptr getNrelMainIdtfIterator(ScAddr const & node) const;
-
-  bool isInEnglish(ScAddr const & node) const;
-  bool isInRussian(ScAddr const & node) const;
 };
 
 struct SemanticNeighbourhoodTranslatorCmp
