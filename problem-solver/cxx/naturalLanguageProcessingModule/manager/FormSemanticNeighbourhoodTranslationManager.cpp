@@ -41,16 +41,16 @@ ScAddrVector FormSemanticNeighbourhoodTranslationManager::manage(ScAddrVector co
   
   SC_LOG_INFO(translation);
   SC_LOG_INFO("\n");
-  StructureHandler structureHandler(languageHandler);
- 
-  auto res = structureHandler.construct(inTransl, fromTransl);
 
-  SC_LOG_INFO(res);
+  StructureHandler structureHandler(languageHandler);
+  auto roughtText = structureHandler.construct(inTransl, fromTransl);
+
+  SC_LOG_INFO(roughtText);
 
   ScAddr const & translationLink = context->CreateLink();
   if (translationLink.IsValid() == SC_FALSE)
     SC_THROW_EXCEPTION(utils::ScException, "FormSemanticNeighbourhoodTranslationManager: cannot create answer link");
-  if (context->SetLinkContent(translationLink, translation) == SC_FALSE)
+  if (context->SetLinkContent(translationLink, roughtText) == SC_FALSE)
     SC_THROW_EXCEPTION(utils::ScException, "FormSemanticNeighbourhoodTranslationManager: cannot set link content");
 
   delete languageHandler;

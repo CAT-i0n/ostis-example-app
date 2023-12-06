@@ -54,7 +54,7 @@ std::vector<std::string> TestTakeExplanationTranslator::getSemanticNeighbourhood
         }
     }
   }
-    inTr[" "].push_back({linkContents});
+    inTr["text"].push_back({linkContents});
   return translations;
 }
 

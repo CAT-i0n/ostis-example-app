@@ -57,6 +57,7 @@ namespace naturalLanguageProcessingModule
         inSynonyms["inclusion*"] = "includes" ;
         inSynonyms["identifier*"] = "also known as";
         inSynonyms["strict inclusion*"] = "strictly includes";
+        inSynonyms["text"] = ":";
         if(isInTransl)
         {
             if(inSynonyms[idtf].size()>0) return inSynonyms[idtf];
@@ -64,7 +65,7 @@ namespace naturalLanguageProcessingModule
             {
                 if(idtf.find('*') != std::string::npos)
                     idtf = idtf.erase(idtf.find('*'), 1);
-                return idtf + " -";
+                return idtf == " "? "" : idtf + " -";
             }
         }
         else
@@ -74,7 +75,7 @@ namespace naturalLanguageProcessingModule
             {
                 if(idtf.find('*') != std::string::npos)
                     idtf = idtf.erase(idtf.find('*'), 1);
-                return idtf + " of";
+                return idtf == " "? "" : idtf + " of";
             }
         }
     } 
@@ -118,26 +119,27 @@ namespace naturalLanguageProcessingModule
         inSynonyms["включение*"] = "включает в себя" ;
         inSynonyms["идентификатор*"] = "также известен, как";
         inSynonyms["строгое включение*"] = "строго включает в себя";
+        inSynonyms["text"] = ":";
         if(isInTransl)
         {
             if(inSynonyms[idtf].size()>0)
-            return inSynonyms[idtf];
+                return inSynonyms[idtf];
             else 
             {
             if(idtf.find('*') != std::string::npos)
                 idtf = idtf.erase(idtf.find('*'), 1);
-            return idtf + " -";
+            return idtf == " "? "" : idtf + " -";
             }
         }
         else
         {
             if(fromSynonyms[idtf].size()>0)
-            return fromSynonyms[idtf];
+                return fromSynonyms[idtf];
             else
             {
-            if(idtf.find('*') != std::string::npos)
-                idtf = idtf.erase(idtf.find('*'), 1);
-            return idtf + " ";
+                if(idtf.find('*') != std::string::npos)
+                    idtf = idtf.erase(idtf.find('*'), 1);
+            return idtf == " "? "" :idtf + " ";
             }
         }
     }

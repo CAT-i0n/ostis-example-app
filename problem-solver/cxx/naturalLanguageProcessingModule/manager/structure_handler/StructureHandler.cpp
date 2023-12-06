@@ -1,6 +1,6 @@
 
 #include "StructureHandler.hpp"
-
+#include <regex>
 namespace naturalLanguageProcessingModule
 {
 
@@ -13,7 +13,7 @@ namespace naturalLanguageProcessingModule
                                             std::map<std::string, std::vector<std::vector<std::string>>> fromTransl)
     {
         std::string mainIdtf = _languageHandler->getEntityName(inTransl);
-        std::string roughtText = mainIdtf + "\n";
+        std::string roughtText = mainIdtf + ";\n";
         roughtText += this->constructInTranslations(inTransl, mainIdtf);
         roughtText += this->constructFromTranslations(fromTransl, mainIdtf);
         return roughtText;
@@ -26,24 +26,28 @@ namespace naturalLanguageProcessingModule
         {
             if (_languageHandler->isInIgnoredIdtfs(tr.first))
                 continue;
+
             std::string synonyms = _languageHandler->findSynonyms(tr.first, true);
+            if (synonyms.empty())
+                continue;
             inTranslText += mainIdtf + " " + synonyms + " ";
             if(noQuasyBinaryRelations(tr.second))
             {
-            std::vector<std::string> totalStrings;
-            for(auto vec: tr.second)
-            {
-                if(vec.size() > 0)
-                totalStrings.push_back(vec[0]);
-            }
-            inTranslText += createSentanceForm(totalStrings);
+                std::vector<std::string> totalStrings;
+                for(auto vec: tr.second)
+                {
+                    if(vec.size() > 0)
+                        totalStrings.push_back(vec[0]);
+                }
+                inTranslText += createSentanceForm(totalStrings);
             }
             else
             {
-                for(auto vec: tr.second)
+                for(int i  = 0; i < tr.second.size()-1; i++)
                 {
-                    inTranslText += createSentanceForm(vec);
+                    inTranslText += createSentanceForm(tr.second[i], false);
                 }
+                inTranslText += createSentanceForm(tr.second[tr.second.size()-1]);
             }
         }
         return inTranslText;
@@ -56,7 +60,10 @@ namespace naturalLanguageProcessingModule
         {
             if (_languageHandler->isInIgnoredIdtfs(tr.first))
                 continue;
+            
             std::string synonyms = _languageHandler->findSynonyms(tr.first, false);
+            if (synonyms.empty())
+                continue;
             fromTranslText += mainIdtf + " " + synonyms + " ";
             if(noQuasyBinaryRelations(tr.second))
             {
@@ -70,32 +77,37 @@ namespace naturalLanguageProcessingModule
             }
             else
             {
-                for(auto vec: tr.second)
+                for(int i  = 0; i < tr.second.size()-1; i++)
                 {
-                    fromTranslText+= createSentanceForm(vec);
+                    fromTranslText+= createSentanceForm(tr.second[i], false);
                 }
+                fromTranslText += createSentanceForm(tr.second[tr.second.size()-1]);
             }
         }
         return fromTranslText;
     }
 
-    std::string StructureHandler::createSentanceForm(std::vector<std::string> strVector)
+    std::string StructureHandler::createSentanceForm(std::vector<std::string> strVector, bool isLast)
     {
         std::string rightForm = "";
         std::string conjuctWord = _languageHandler->getConjuctionWord();
+        std::string separator = isLast? "; " : ", ";
+
+        for(int i = 0; i < strVector.size(); i++)
+            strVector[i] = deleteTags(strVector[i]);
         if(strVector.size() == 0)
         return "";
         else if(strVector.size() == 1)
-            return strVector[0] + ". ";
+            return strVector[0] + separator;
         else if (strVector.size() == 2)
-            return strVector[0] + conjuctWord + strVector[1] + ". ";
+            return strVector[0] + conjuctWord + strVector[1] + separator;
         else{
             rightForm = strVector[0];
             for(long unsigned int i = 1; i < strVector.size()-1; i++)
             {
                 rightForm += ", " + strVector[i];
             }
-            rightForm += conjuctWord + strVector[strVector.size()-1] + ". ";
+            rightForm += conjuctWord + strVector[strVector.size()-1] + separator;
             return rightForm;
         }
     }
@@ -110,4 +122,10 @@ namespace naturalLanguageProcessingModule
         return true;
     }
 
+    std::string StructureHandler::deleteTags(std::string text)
+    {
+        std::regex htmlTag("<[^>]*>");
+
+        return std::regex_replace(text, htmlTag, "");
+    }
 }

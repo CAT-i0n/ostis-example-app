@@ -37,7 +37,7 @@ std::vector<std::string> FromConceptSemanticNeighbourhoodTranslator::getSemantic
     if (classMainIdtf.empty())
       continue;
     translations.push_back("is " + classMainIdtf);
-    fromTr["included in"].push_back({classMainIdtf});
+    inTr["included in"].push_back({classMainIdtf});
   }
   return translations;
 }
