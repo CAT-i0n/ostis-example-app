@@ -37,8 +37,7 @@ class NonOfficialAPITextProcessor(ScAgentClassic):
     def __init__(self) -> None:                     
         super().__init__(cf.NON_OFFICIAL_API_AGENT_ACTION)               
 
-    def on_event(self, event_element: ScAddr, event_edge: ScAddr, action_element: ScAddr) -> ScResult:     
-        print(1234521234)           
+    def on_event(self, event_element: ScAddr, event_edge: ScAddr, action_element: ScAddr) -> ScResult:              
         self.logger.info('Non-official API raw text processor began to run...')
 
         # Get sc-link with raw text        
