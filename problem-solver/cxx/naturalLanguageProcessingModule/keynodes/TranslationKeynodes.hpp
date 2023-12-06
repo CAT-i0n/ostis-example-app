@@ -31,6 +31,15 @@ public:
 
   SC_PROPERTY(Keynode("nrel_rough_summary"), ForceCreate(ScType::NodeConstClass))
   static ScAddr nrel_rough_summary;
+
+  SC_PROPERTY(Keynode("action_get_clean_text_using_non_official_api"), ForceCreate(ScType::NodeConstClass))
+  static ScAddr action_get_clean_text_using_non_official_api;
+
+  SC_PROPERTY(Keynode("action_example_action"), ForceCreate(ScType::NodeConstClass))
+  static ScAddr action_example_action;
+
+  SC_PROPERTY(Keynode("nrel_answer"), ForceCreate(ScType::NodeConstClass))
+  static ScAddr nrel_answer;
 };
 
 } // naturalLanguageProcessingModule

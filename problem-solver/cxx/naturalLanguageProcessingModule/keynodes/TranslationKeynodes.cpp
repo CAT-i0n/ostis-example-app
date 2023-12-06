@@ -10,4 +10,7 @@ ScAddr TranslationKeynodes::lang_ru;
 ScAddr TranslationKeynodes::parameter;
 ScAddr TranslationKeynodes::translation_ignored_keynodes;
 ScAddr TranslationKeynodes::nrel_rough_summary;
+ScAddr TranslationKeynodes::action_get_clean_text_using_non_official_api;
+ScAddr TranslationKeynodes::action_example_action;
+ScAddr TranslationKeynodes::nrel_answer;
 } // naturalLanguageProcessingModule
