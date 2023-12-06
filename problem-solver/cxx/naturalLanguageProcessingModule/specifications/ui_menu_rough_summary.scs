@@ -1,31 +1,31 @@
-lib_component_ui_menu_rough_summary = [*
-ui_menu_rough_summary <- ui_user_command_class_atom; ui_user_command_class_view_kb; ui_one_argument_command_class;;
+lib_component_ui_menu_summary = [*
+ui_menu_summary <- ui_user_command_class_atom; ui_user_command_class_view_kb; ui_one_argument_command_class;;
 
-ui_menu_rough_summary
+ui_menu_summary
 => nrel_main_idtf: 
-	[Грубое описание сущности]
+	[Краткое описание сущности]
 	(* <- lang_ru;; *);
 => nrel_idtf: 
-	[Грубое описание сущности]
+	[Краткое описание сущности]
 	(* <- lang_ru;; *);;
 
-ui_menu_rough_summary
+ui_menu_summary
 => nrel_main_idtf: 
-	[Rough summary]
+	[Get summary]
 	(* <- lang_en;; *);
 => nrel_idtf: 
-	[Rough summary]
+	[Get summary]
 	(* <- lang_en;; *);;
 
-ui_menu_rough_summary => ui_nrel_command_template:
+ui_menu_summary => ui_nrel_command_template:
 	[*
-		action_form_semantic_neighbourhood_translation _-> ._question_make_rough_summary_instance
+		action_form_semantic_neighbourhood_translation _-> ._question_make_summary_instance
 			(*
 				_-> ui_arg_1;;
 			*);;
-		._question_make_rough_summary_instance _<- question;;
+		._question_make_summary_instance _<- question;;
 	*];;
 
-ui_menu_rough_summary => ui_nrel_command_lang_template: [Грубое описание $ui_arg_1] (* <- lang_ru;; *);;
-ui_menu_rough_summary => ui_nrel_command_lang_template: [Rough summary of $ui_arg_1] (* <- lang_en;; *);;
+ui_menu_summary => ui_nrel_command_lang_template: [Краткое описание $ui_arg_1] (* <- lang_ru;; *);;
+ui_menu_summary => ui_nrel_command_lang_template: [Get summary of $ui_arg_1] (* <- lang_en;; *);;
 *];;

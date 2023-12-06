@@ -19,11 +19,11 @@ ui_menu_example
 
 ui_menu_example=> ui_nrel_command_template:
 	[*
-		action_example_action _-> ._question_find_isomorphic_structures_instance
+		action_example_action _-> ._question_example_instance
 			(*
 				_-> ui_arg_1;;
 			*);;
-		._question_find_isomorphic_structures_instance _<- question;;
+		._question_example_instance _<- question;;
 	*];;
 
 ui_menu_example=> ui_nrel_command_lang_template: [пример $ui_arg_1?] (* <- lang_ru;; *);;
