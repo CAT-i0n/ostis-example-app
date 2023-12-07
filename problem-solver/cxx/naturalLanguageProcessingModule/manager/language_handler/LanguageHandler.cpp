@@ -45,7 +45,8 @@ namespace naturalLanguageProcessingModule
         return context->HelperCheckEdge(TranslationKeynodes::lang_en, node, ScType::EdgeAccessConstPosPerm);
     }
 
-    std::string EnglishLanguageHandler::findSynonyms(std::string idtf, bool isInTransl) 
+    std::string EnglishLanguageHandler::findSynonyms(std::string idtf, bool isInTransl, 
+                                                    std::string mainIdtf, std::string translations) 
     {
         std::map<std::string, std::string> inSynonyms;
         std::map<std::string, std::string> fromSynonyms;
@@ -60,22 +61,24 @@ namespace naturalLanguageProcessingModule
         inSynonyms["text"] = ":";
         if(isInTransl)
         {
-            if(inSynonyms[idtf].size()>0) return inSynonyms[idtf];
+            if(inSynonyms[idtf].size()>0) 
+                return mainIdtf + " " + inSynonyms[idtf] + " " + translations;
             else 
             {
                 if(idtf.find('*') != std::string::npos)
                     idtf = idtf.erase(idtf.find('*'), 1);
-                return idtf == " "? "" : idtf + " -";
+                return idtf == " "? "" : translations + " - " + idtf + " of " + mainIdtf;
             }
         }
         else
         {
-            if(fromSynonyms[idtf].size()>0) return fromSynonyms[idtf];
+            if(fromSynonyms[idtf].size()>0) 
+                return mainIdtf + " " + fromSynonyms[idtf] + " " + translations;
             else
             {
                 if(idtf.find('*') != std::string::npos)
                     idtf = idtf.erase(idtf.find('*'), 1);
-                return idtf == " "? "" : idtf + " of";
+                return idtf == " "? "" :  mainIdtf + " - " + idtf + " of " + translations;
             }
         }
     } 
@@ -107,7 +110,8 @@ namespace naturalLanguageProcessingModule
         return context->HelperCheckEdge(TranslationKeynodes::lang_ru, node, ScType::EdgeAccessConstPosPerm);
     }
 
-    std::string RussianLanguageHandler::findSynonyms(std::string idtf, bool isInTransl) 
+    std::string RussianLanguageHandler::findSynonyms(std::string idtf, bool isInTransl, 
+                                                    std::string mainIdtf, std::string translations) 
     {
         std::map<std::string, std::string> inSynonyms;
         std::map<std::string, std::string> fromSynonyms;
@@ -122,24 +126,26 @@ namespace naturalLanguageProcessingModule
         inSynonyms["text"] = ":";
         if(isInTransl)
         {
-            if(inSynonyms[idtf].size()>0)
-                return inSynonyms[idtf];
+            translations.pop_back();
+            translations.pop_back();
+            if(inSynonyms[idtf].size()>0) 
+                return mainIdtf + " " + inSynonyms[idtf] + " " + translations + "; ";
             else 
             {
-            if(idtf.find('*') != std::string::npos)
-                idtf = idtf.erase(idtf.find('*'), 1);
-            return idtf == " "? "" : idtf + " -";
+                if(idtf.find('*') != std::string::npos)
+                    idtf = idtf.erase(idtf.find('*'), 1);
+                return idtf == " "? "" : translations + " - " + idtf + " " + mainIdtf+ "; ";
             }
         }
         else
         {
-            if(fromSynonyms[idtf].size()>0)
-                return fromSynonyms[idtf];
+            if(fromSynonyms[idtf].size()>0) 
+                return mainIdtf + " " + fromSynonyms[idtf] + " " + translations;
             else
             {
                 if(idtf.find('*') != std::string::npos)
                     idtf = idtf.erase(idtf.find('*'), 1);
-            return idtf == " "? "" :idtf + " ";
+                return idtf == " "? "" :  mainIdtf + " - " + idtf + " " + translations;
             }
         }
     }

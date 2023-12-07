@@ -21,7 +21,7 @@ public:
     std::string getContent(ScAddr const & linkNode) const;
     ScIterator5Ptr getNrelMainIdtfIterator(ScAddr const & node) const;
     std::string getMainIdtf(ScAddr const & node) const;
-    virtual std::string findSynonyms(std::string idtf, bool isInTransl) = 0;
+    virtual std::string findSynonyms(std::string idtf, bool isInTransl, std::string mainIdtf, std::string translations) = 0;
     virtual bool isInIgnoredIdtfs(std::string idtf) = 0;
     virtual std::string getEntityName(std::map<std::string, std::vector<std::vector<std::string>>> inTransl) = 0;
     virtual std::string getConjuctionWord() = 0;
@@ -33,7 +33,7 @@ class EnglishLanguageHandler: public LanguageHandler
 {
 public:
     EnglishLanguageHandler(ScMemoryContext * context);
-    std::string findSynonyms(std::string idtf, bool isInTransl) override;
+    std::string findSynonyms(std::string idtf, bool isInTransl, std::string mainIdtf, std::string translations) override;
     bool isInIgnoredIdtfs(std::string idtf) override;
     std::string getEntityName(std::map<std::string, std::vector<std::vector<std::string>>> inTransl) override;
     std::string getConjuctionWord() override;
@@ -44,7 +44,7 @@ class RussianLanguageHandler: public LanguageHandler
 {
 public:
     RussianLanguageHandler(ScMemoryContext * context);
-    std::string findSynonyms(std::string idtf, bool isInTransl) override;
+    std::string findSynonyms(std::string idtf, bool isInTransl, std::string mainIdtf, std::string translations) override;
     bool isInIgnoredIdtfs(std::string idtf) override;
     std::string getEntityName(std::map<std::string, std::vector<std::vector<std::string>>> inTransl) override;
     std::string getConjuctionWord() override;

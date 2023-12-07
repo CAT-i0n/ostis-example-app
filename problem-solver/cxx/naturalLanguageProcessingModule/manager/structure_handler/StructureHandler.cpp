@@ -24,13 +24,10 @@ namespace naturalLanguageProcessingModule
         std::string inTranslText = "";
         for(auto tr: inTransl)
         {
+            std::string translationText = "";
             if (_languageHandler->isInIgnoredIdtfs(tr.first))
                 continue;
 
-            std::string synonyms = _languageHandler->findSynonyms(tr.first, true);
-            if (synonyms.empty())
-                continue;
-            inTranslText += mainIdtf + " " + synonyms + " ";
             if(noQuasyBinaryRelations(tr.second))
             {
                 std::vector<std::string> totalStrings;
@@ -39,16 +36,22 @@ namespace naturalLanguageProcessingModule
                     if(vec.size() > 0)
                         totalStrings.push_back(vec[0]);
                 }
-                inTranslText += createSentanceForm(totalStrings);
+                translationText += createSentanceForm(totalStrings, false);
             }
             else
             {
                 for(int i  = 0; i < tr.second.size()-1; i++)
                 {
-                    inTranslText += createSentanceForm(tr.second[i], false);
+                    translationText += createSentanceForm(tr.second[i], false);
                 }
-                inTranslText += createSentanceForm(tr.second[tr.second.size()-1]);
+                translationText += createSentanceForm(tr.second[tr.second.size()-1], false);
             }
+            if(translationText.empty())
+                continue;
+            std::string synonyms = _languageHandler->findSynonyms(tr.first, true, mainIdtf, translationText); 
+            if (synonyms.empty())
+                continue;
+            inTranslText += synonyms;
         }
         return inTranslText;
     }
@@ -58,13 +61,9 @@ namespace naturalLanguageProcessingModule
         std::string fromTranslText = "";
         for(auto tr: fromTransl)
         {
+            std::string translationText = "";
             if (_languageHandler->isInIgnoredIdtfs(tr.first))
                 continue;
-            
-            std::string synonyms = _languageHandler->findSynonyms(tr.first, false);
-            if (synonyms.empty())
-                continue;
-            fromTranslText += mainIdtf + " " + synonyms + " ";
             if(noQuasyBinaryRelations(tr.second))
             {
                 std::vector<std::string> totalStrings;
@@ -73,16 +72,28 @@ namespace naturalLanguageProcessingModule
                     if(vec.size() > 0)
                         totalStrings.push_back(vec[0]);
                 }
-                fromTranslText += createSentanceForm(totalStrings);
+                
+                translationText += createSentanceForm(totalStrings);
+                if(translationText == "")
+                    continue;
             }
             else
             {
                 for(int i  = 0; i < tr.second.size()-1; i++)
                 {
-                    fromTranslText+= createSentanceForm(tr.second[i], false);
+                    std::string sentance = createSentanceForm(tr.second[i], false);
+                    if(sentance == "")
+                        break;
+                    translationText += sentance;
                 }
-                fromTranslText += createSentanceForm(tr.second[tr.second.size()-1]);
+                translationText += createSentanceForm(tr.second[tr.second.size()-1]);
+                if(translationText == "")
+                    continue;
             }
+            std::string synonyms = _languageHandler->findSynonyms(tr.first, false, mainIdtf, translationText);
+            if (synonyms.empty())
+                continue;
+            fromTranslText += synonyms;
         }
         return fromTranslText;
     }
@@ -94,9 +105,14 @@ namespace naturalLanguageProcessingModule
         std::string separator = isLast? "; " : ", ";
 
         for(int i = 0; i < strVector.size(); i++)
+        {
             strVector[i] = deleteTags(strVector[i]);
+            if(strVector[i].empty())
+                return "";
+        }
+        
         if(strVector.size() == 0)
-        return "";
+            return "";
         else if(strVector.size() == 1)
             return strVector[0] + separator;
         else if (strVector.size() == 2)
