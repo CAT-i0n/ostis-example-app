@@ -6,10 +6,10 @@ AVAILABLE_LANGUAGES = ('lang_ru', 'lang_en')
 # Prompts
 PROMPTS = {'lang_en': 'I have sentences divided by semicolons. Connect those sentences in one human-readable text.'
                       'Connect some sentences in one if possible. Drop repeatable information.'
-                      'Do not add information which is not represented in sentences. Give only answer. Here are sentences: "{!s}"',
-           'lang_ru': 'У меня есть предложения, разделённые точкой с запятой. Соедини эти предложения в читаемый текст.'
+                      'Do not add information which is not represented in sentences. Give only answer, no additional words. Here are sentences: "{!s}"',
+           'lang_ru': 'У меня есть предложения, описывающие некоторую сущность, и разделённые точкой с запятой. Соедини эти предложения в читаемый текст.'
                       'Объедини некоторые предложения в одно, если возможно. Убери повторяющуюся информацию.'
-                      'Не добавляй информацию, которой нет в предложениях. Дай только ответ. Вот предложения: "{!s}"'
+                      'Не добавляй информацию, которой нет в предложениях. Верни только и только читаемый текст, ни слова больше. Вот предложения: "{!s}"'
            }
 
 # Configs for non official API agent
