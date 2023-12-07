@@ -48,10 +48,10 @@ SC_AGENT_IMPLEMENTATION(FormSemanticNeighbourhoodTranslationAgent)
     ScAddr answer = ms_context->CreateNode(ScType::NodeConstStruct);
 
     ms_context->CreateEdge(ScType::EdgeAccessConstPosPerm, answer, nodeAddr);
-    ms_context->CreateEdge(ScType::EdgeAccessConstPosPerm, answer, TranslationKeynodes::nrel_rough_summary);
+    ms_context->CreateEdge(ScType::EdgeAccessConstPosPerm, answer, TranslationKeynodes::nrel_summary);
 
     ScAddr const & summary_edge = ms_context->CreateEdge(ScType::EdgeDCommon, nodeAddr, cleanText);
-    ScAddr const & summary_nrel_edge = ms_context->CreateEdge(ScType::EdgeAccessConstPosPerm, TranslationKeynodes::nrel_rough_summary, summary_edge);
+    ScAddr const & summary_nrel_edge = ms_context->CreateEdge(ScType::EdgeAccessConstPosPerm, TranslationKeynodes::nrel_summary, summary_edge);
 
     ms_context->CreateEdge(ScType::EdgeAccessConstPosPerm, answer, cleanText);
     ms_context->CreateEdge(ScType::EdgeAccessConstPosPerm, answer, summary_edge);
