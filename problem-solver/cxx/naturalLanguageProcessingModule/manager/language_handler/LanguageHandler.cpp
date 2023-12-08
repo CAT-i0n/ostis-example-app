@@ -124,6 +124,7 @@ namespace naturalLanguageProcessingModule
         inSynonyms["идентификатор*"] = "также известен, как";
         inSynonyms["строгое включение*"] = "строго включает в себя";
         inSynonyms["text"] = ":";
+        inSynonyms["includes"] = "включает в себя" ;
         if(isInTransl)
         {
             translations.pop_back();
