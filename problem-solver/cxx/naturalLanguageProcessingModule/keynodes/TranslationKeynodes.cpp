@@ -4,7 +4,7 @@
 
 namespace naturalLanguageProcessingModule
 {
-ScAddr TranslationKeynodes::action_form_semantic_neighbourhood_translation;
+ScAddr TranslationKeynodes::make_rough_summary;
 ScAddr TranslationKeynodes::lang_en;
 ScAddr TranslationKeynodes::lang_ru;
 ScAddr TranslationKeynodes::parameter;

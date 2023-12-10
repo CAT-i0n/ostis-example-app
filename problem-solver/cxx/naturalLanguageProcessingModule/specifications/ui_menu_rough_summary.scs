@@ -3,18 +3,18 @@ ui_menu_summary <- ui_user_command_class_atom; ui_user_command_class_view_kb; ui
 
 ui_menu_summary
 => nrel_main_idtf: 
-	[Краткое описание сущности]
+	[Грубое описание сущности]
 	(* <- lang_ru;; *);
 => nrel_idtf: 
-	[Краткое описание сущности]
+	[Грубое описание сущности]
 	(* <- lang_ru;; *);;
 
 ui_menu_summary
 => nrel_main_idtf: 
-	[Get summary]
+	[Get rough summary]
 	(* <- lang_en;; *);
 => nrel_idtf: 
-	[Get summary]
+	[Get rough summary]
 	(* <- lang_en;; *);;
 
 ui_menu_summary => ui_nrel_command_template:
@@ -26,6 +26,6 @@ ui_menu_summary => ui_nrel_command_template:
 		._question_make_summary_instance _<- question;;
 	*];;
 
-ui_menu_summary => ui_nrel_command_lang_template: [Краткое описание $ui_arg_1] (* <- lang_ru;; *);;
-ui_menu_summary => ui_nrel_command_lang_template: [Get summary of $ui_arg_1] (* <- lang_en;; *);;
+ui_menu_summary => ui_nrel_command_lang_template: [Грубое описание $ui_arg_1] (* <- lang_ru;; *);;
+ui_menu_summary => ui_nrel_command_lang_template: [Get rough summary of $ui_arg_1] (* <- lang_en;; *);;
 *];;

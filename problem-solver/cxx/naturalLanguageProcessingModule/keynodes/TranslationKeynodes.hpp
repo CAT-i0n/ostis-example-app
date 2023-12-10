@@ -14,8 +14,8 @@ class TranslationKeynodes : public ScObject
   SC_GENERATED_BODY()
 
 public:
-  SC_PROPERTY(Keynode("action_form_semantic_neighbourhood_translation"), ForceCreate(ScType::NodeConstClass))
-  static ScAddr action_form_semantic_neighbourhood_translation;
+  SC_PROPERTY(Keynode("make_rough_summary"), ForceCreate(ScType::NodeConstClass))
+  static ScAddr make_rough_summary;
 
   SC_PROPERTY(Keynode("lang_en"), ForceCreate(ScType::NodeConstClass))
   static ScAddr lang_en;
