@@ -19,7 +19,7 @@ ui_menu_summary
 
 ui_menu_summary => ui_nrel_command_template:
 	[*
-		action_form_semantic_neighbourhood_translation _-> ._question_make_summary_instance
+		make_rough_summary _-> ._question_make_summary_instance
 			(*
 				_-> ui_arg_1;;
 			*);;
